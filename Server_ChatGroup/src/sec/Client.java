@@ -8,7 +8,7 @@ public class Client {
 
 	public static void main(String[] args) {
 		try {
-			Socket s = new Socket("100.65.129.36", 5000);
+			Socket s = new Socket("XXX.XXX.XXX.XXX", 5000);
 			
 			Login lg = new Login(s);
 			
@@ -22,3 +22,4 @@ public class Client {
 	}
 
 }
+
