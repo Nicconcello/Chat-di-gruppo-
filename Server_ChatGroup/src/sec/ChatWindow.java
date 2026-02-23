@@ -58,7 +58,7 @@ public class ChatWindow extends JFrame{
 				}
 			}
 		}).start();
-		//testpush
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
