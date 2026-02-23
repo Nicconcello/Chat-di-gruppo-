@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -59,7 +58,7 @@ public class ChatWindow extends JFrame{
 				}
 			}
 		}).start();
-		
+		//testpush
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
