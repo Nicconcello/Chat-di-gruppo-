@@ -7,8 +7,8 @@ import java.net.UnknownHostException;
 public class Client {
 
 	public static void main(String[] args) {
-		try {
-			Socket s = new Socket("XXX.XXX.XXX.XXX", 5000);
+		try {//local per testare
+			Socket s = new Socket("127.0.0.1", 5000);
 			
 			Login lg = new Login(s);
 			

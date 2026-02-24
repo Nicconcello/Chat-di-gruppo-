@@ -21,7 +21,10 @@ public class Thread_Connessioni implements Runnable{
 		try {
 			sc = new Scanner(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(),true);
-						
+			
+			//Aggiungere Wait, sbloccato DOPO aver premuto il tasto CONNETTI dalla finestra login
+			
+
 			if(sc.hasNextLine()) {
 				this.username = sc.nextLine();
 			}
@@ -58,6 +61,9 @@ public class Thread_Connessioni implements Runnable{
 			pw.close();
 			sc.close();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 	        if (pw != null) Server.messaggeri.remove(pw);

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -33,7 +32,10 @@ public class Connetti implements ActionListener{
 			
 			if(!un.getText().isEmpty() && !psw.getText().isEmpty()) {
 				pw.println(un.getText());
+				//Notifica thread connessione che il client sta tendando di connettersi con le credenziali
+				
 				pw.println(psw.getText());
+				
 				
 				// Il server ci manderà una riga di risposta
                 if(sc.hasNextLine()) {
