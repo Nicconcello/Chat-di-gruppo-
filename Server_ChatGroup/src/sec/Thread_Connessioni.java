@@ -16,7 +16,9 @@ public class Thread_Connessioni implements Runnable{
 	public void ServerSend(String msg){
 		if(Server.messaggeri.size()<1){
 			return;
-		}else if(msg.equals("")||msg.equals(" ")){
+		}else if(msg.isBlank() || msg.isEmpty()){
+			return;
+		}else{
 			for(PrintWriter u : Server.messaggeri) {
 					u.println(msg);
 			}

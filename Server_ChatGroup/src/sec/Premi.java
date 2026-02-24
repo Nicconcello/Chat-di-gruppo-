@@ -17,7 +17,7 @@ public class Premi implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String nome = name.getText();
 		
-		if(nome!=null || nome!="" || nome!=" "){
+		if(!nome.isBlank()){
 			Sicurezza sec = new Sicurezza(nome);
 			String c = sec.getOTP();
 			cod.setText(c);
