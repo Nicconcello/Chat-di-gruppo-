@@ -8,10 +8,10 @@ import java.net.Socket;
 import javax.swing.JTextField;
 
 public class Send implements ActionListener{
-	JTextField txt;
-	Socket s;
-	String msg;
-	PrintWriter pw;
+	private JTextField txt;
+	private Socket s;
+	private String msg;
+	private PrintWriter pw;
 	
 	public Send(JTextField txt, Socket s, String msg) {
 		this.txt = txt;

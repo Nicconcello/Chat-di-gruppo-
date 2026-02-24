@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ChatWindow extends JFrame{
-	Scanner sc;
+	private Scanner sc;
 	
 	public ChatWindow(Socket s, String msg) {
 		super("CHAT");

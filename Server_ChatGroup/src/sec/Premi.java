@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 
 public class Premi implements ActionListener{
-	JTextField name;
-	JTextField cod;
+	private JTextField name;
+	private JTextField cod;
 	
 	public Premi(JTextField name, JTextField cod) {
 		this.name = name;

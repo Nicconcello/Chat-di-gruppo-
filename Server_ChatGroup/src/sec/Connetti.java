@@ -6,17 +6,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class Connetti implements ActionListener{
-	JTextField un;
-	JTextField psw;
-	Socket s;
-	Scanner sc;
-	PrintWriter pw;
-	JFrame finestra;
+	private JTextField un;
+	private JTextField psw;
+	private Socket s;
+	private Scanner sc;
+	private PrintWriter pw;
+	private JFrame finestra;
 	
 	public Connetti(JTextField un, JTextField psw, Socket s, JFrame finestra) {
 		this.un = un;
