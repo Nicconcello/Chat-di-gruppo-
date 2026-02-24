@@ -2,8 +2,6 @@ package sec;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class Premi implements ActionListener{
@@ -19,8 +17,10 @@ public class Premi implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String nome = name.getText();
 		
-		Sicurezza sec = new Sicurezza(nome);
-		String c = sec.getOTP();
-		cod.setText(c);
+		if(nome!=null || nome!="" || nome!=" "){
+			Sicurezza sec = new Sicurezza(nome);
+			String c = sec.getOTP();
+			cod.setText(c);
+		}
 	}
 }
