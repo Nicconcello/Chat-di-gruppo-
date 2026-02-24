@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
 
 public class Connetti implements ActionListener{
 	private JTextField un;
@@ -27,28 +29,32 @@ public class Connetti implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
+			//Inizializzazione Connessione
 			sc = new Scanner(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(), true);
 			
-			if(!un.getText().isEmpty() && !psw.getText().isEmpty()) {
+			if(!un.getText().isBlank() && !psw.getText().isBlank()) {
 				pw.println(un.getText());
-				pw.println(psw.getText());
+				pw.println(psw.getText()); 
+				//Correggere da cifrare per evitare che chiunque possa recuperarla leggendo le connessioni dalla console del server
 				
 				// Il server ci manderà una riga di risposta
                 if(sc.hasNextLine()) {
                     String risposta = sc.nextLine();
                     System.out.println("Il server dice: " + risposta);
                     
+					//Chiusure Login e Apertura Chat Window
                     if (risposta.contains("Accesso eseguito")) {
-                        // QUI: Chiuderai il login e aprirai la ChatWindow
                         System.out.println("Entriamo!");
                         
                         finestra.dispose();
                         
                         ChatWindow cw = new ChatWindow(s, un.getText());
-                    } else {
+                    } else { //Credenziali invalide
                         System.out.println("Accesso negato: " + risposta);
-                        // Magari qui potresti svuotare il campo password per riprovare
+
+                        JOptionPane.showMessageDialog(null, "Password o Username non validi", "Login Error", JOptionPane.ERROR_MESSAGE); //PopUp error
+						
                         un.setText("");
                         psw.setText("");
                     }

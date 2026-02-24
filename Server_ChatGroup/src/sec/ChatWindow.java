@@ -13,18 +13,19 @@ import javax.swing.JTextField;
 
 public class ChatWindow extends JFrame{
 	private Scanner sc;
-	
+
 	public ChatWindow(Socket s, String msg) {
 		super("CHAT");
 		setSize(400,600);
 		setLocationRelativeTo(null);
-		
+
+		//Chat Area
 		JTextArea c = new JTextArea();
 		c.setEditable(false);
-		JScrollPane scroll = new JScrollPane(c); // Aggiunge le barre di scorrimento
+		JScrollPane scroll = new JScrollPane(c);
 		
-		JTextField txt = new JTextField(20);
-		
+		//Send Bar
+		JTextField txt = new JTextField(20);	
 		JButton send = new JButton("➤");
 		
 		JPanel p = new JPanel();
@@ -38,8 +39,8 @@ public class ChatWindow extends JFrame{
 		Send a = new Send(txt, s, msg);
 		send.addActionListener(a);
 		
+		//Loop Lettura Messaggi
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				try {
@@ -49,9 +50,7 @@ public class ChatWindow extends JFrame{
 						String messaggioRicevuto = sc.nextLine();
 						
 						c.append(messaggioRicevuto + "\n");
-						
-						// Scroll automatico verso il basso
-	                    c.setCaretPosition(c.getDocument().getLength());
+	                    c.setCaretPosition(c.getDocument().getLength()); //AutoScroll
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

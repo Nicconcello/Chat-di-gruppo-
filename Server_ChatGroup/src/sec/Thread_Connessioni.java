@@ -59,7 +59,7 @@ public class Thread_Connessioni implements Runnable{
 				//non a tutti i membri del server()
 				Server.messaggeri.add(pw);
 				ServerSend(this.username + "si è connesso.");
-				
+				ServerSend("CONNECT");
 				connesso = true;
 			}
 			while(connesso && sc.hasNextLine()) {
@@ -75,6 +75,7 @@ public class Thread_Connessioni implements Runnable{
 		}finally {
 	        if (pw != null) Server.messaggeri.remove(pw);
 	        ServerSend(username + " si è disconnesso.");
+			ServerSend("DISCONNECT");
 	        try { s.close(); } catch (IOException e) { }
 	    }
 	}
