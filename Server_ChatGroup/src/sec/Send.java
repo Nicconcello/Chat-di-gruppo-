@@ -21,7 +21,6 @@ public class Send implements ActionListener{
 		try {
 			pw = new PrintWriter(s.getOutputStream(), true);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

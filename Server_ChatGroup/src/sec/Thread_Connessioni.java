@@ -3,6 +3,9 @@ package sec;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class Thread_Connessioni implements Runnable{
@@ -16,11 +19,53 @@ public class Thread_Connessioni implements Runnable{
 	public void ServerSend(String msg){
 		if(Server.messaggeri.size()<1){
 			return;
-		}else if(msg.isBlank() || msg.isEmpty()){
+		}else if(msg.isBlank()){
 			return;
 		}else{
+			salvaInArchivio(msg);
 			for(PrintWriter u : Server.messaggeri) {
 					u.println(msg);
+			}
+		}
+	}
+
+	//Gettone per utilizzo dell'archivio
+	private static final Object lockArchivio = new Object();
+
+	//Funzione scrittura nell'archivio
+	public void salvaInArchivio(String msg) {
+		if(msg != null && !msg.equals("CONNECT") && !msg.equals("DISCONNECT")) {
+			Path percorso = Path.of("ARCHIVIO.txt");
+
+			// Aggiungiamo un "a capo" dopo il messaggio
+            String testoDaSalvare = msg + System.lineSeparator();
+
+			synchronized(lockArchivio) {
+				try {
+					Files.writeString(percorso, testoDaSalvare,StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	//Funzione per scaricare l'archivio ogni volta che entri nella chat
+	public void caricaArchivio(PrintWriter pwPersonale) {
+		Path percorso = Path.of("ARCHIVIO.txt");
+
+		if(java.nio.file.Files.exists(percorso)) {
+
+			synchronized(lockArchivio) {
+				try {
+					java.util.List<String> cronologia = java.nio.file.Files.readAllLines(percorso);
+
+					for(String riga : cronologia) {
+						pwPersonale.println(riga);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -35,6 +80,13 @@ public class Thread_Connessioni implements Runnable{
 			sc = new Scanner(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(),true);	
 			
+			if (sc.hasNextLine()) {
+				String messaggio = sc.nextLine();
+				if(!messaggio.equals("PARTI")) {
+					return;
+				}
+			}
+
 			if(sc.hasNextLine()) {
 				this.username = sc.nextLine();
 			}
@@ -54,12 +106,19 @@ public class Thread_Connessioni implements Runnable{
 					return;
 				}
 				
+
+				pw.println("Accesso eseguito");
+
+				caricaArchivio(pw);
+				
 				// connessione e aggiunta al canale di comunicazione
 				//pw.println("Accesso eseguito. Benvenuto " + this.username); //print solo a te stesso e
 				//non a tutti i membri del server()
 				Server.messaggeri.add(pw);
-				ServerSend(this.username + "si è connesso.");
 				ServerSend("CONNECT");
+
+				ServerSend(this.username + " si è connesso.");
+				
 				connesso = true;
 			}
 			while(connesso && sc.hasNextLine()) {
@@ -68,8 +127,6 @@ public class Thread_Connessioni implements Runnable{
 				
 				ServerSend(msg);
 			}
-			pw.close();
-			sc.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {

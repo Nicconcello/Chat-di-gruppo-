@@ -5,11 +5,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class Server {
 	// Lista globale di tutti i "tubi" di uscita per i messaggi
     public static CopyOnWriteArrayList<PrintWriter> messaggeri = new CopyOnWriteArrayList<>();
     
+	private static CountDownLatch cancelloPartenza = new CountDownLatch(1);
+
 	public static void main(String[] args) {
 		try {
 			ServerSocket ss = new ServerSocket(5000);
@@ -22,7 +25,6 @@ public class Server {
 				t.start();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
