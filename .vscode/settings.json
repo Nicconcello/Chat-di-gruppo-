@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\capoc\\Downloads\\signal-protocol-java-2.8.1.jar"
+    ]
+}
