@@ -50,7 +50,8 @@ public class Connetti implements ActionListener{
                         
                         finestra.dispose();
                         
-                        ChatWindow cw = new ChatWindow(s, un.getText());
+                        // L'UNICA MODIFICA È QUI: Passiamo lo scanner (sc) già creato
+                        ChatWindow cw = new ChatWindow(s, un.getText(), sc);
                     } else {
                         System.out.println("Accesso negato: " + risposta);
                         // Magari qui potresti svuotare il campo password per riprovare
