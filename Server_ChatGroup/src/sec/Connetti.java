@@ -10,12 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 public class Connetti implements ActionListener{
-	JTextField un;
-	JTextField psw;
-	Socket s;
-	Scanner sc;
-	PrintWriter pw;
-	JFrame finestra;
+	private JTextField un;
+	private JTextField psw;
+	private Socket s;
+	private Scanner sc;
+	private PrintWriter pw;
+	private JFrame finestra;
 	
 	public Connetti(JTextField un, JTextField psw, Socket s, JFrame finestra) {
 		this.un = un;
@@ -31,6 +31,8 @@ public class Connetti implements ActionListener{
 			pw = new PrintWriter(s.getOutputStream(), true);
 			
 			if(!un.getText().isEmpty() && !psw.getText().isEmpty()) {
+				
+				pw.println("PARTI");
 				pw.println(un.getText());
 				//Notifica thread connessione che il client sta tendando di connettersi con le credenziali
 				

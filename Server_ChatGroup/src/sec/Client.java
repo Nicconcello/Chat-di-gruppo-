@@ -1,8 +1,11 @@
 package sec;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import javax.swing.JOptionPane;
 
 public class Client {
 
@@ -12,14 +15,21 @@ public class Client {
 			
 			Login lg = new Login(s);
 			
+		} catch (ConnectException e) {
+
+			Eccezione serverChiuso = new Eccezione("Il server non è attivo");
+
+			JOptionPane.showMessageDialog(
+				null,
+				serverChiuso.getMessage(),
+				"Errore di connessione",
+				JOptionPane.ERROR_MESSAGE
+			);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 }
-
