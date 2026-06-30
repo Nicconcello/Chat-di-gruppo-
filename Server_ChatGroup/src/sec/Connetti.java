@@ -34,7 +34,10 @@ public class Connetti implements ActionListener{
 				
 				pw.println("PARTI");
 				pw.println(un.getText());
+				//Notifica thread connessione che il client sta tendando di connettersi con le credenziali
+				
 				pw.println(psw.getText());
+				
 				
 				// Il server ci manderà una riga di risposta
                 if(sc.hasNextLine()) {

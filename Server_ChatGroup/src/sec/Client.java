@@ -10,10 +10,8 @@ import javax.swing.JOptionPane;
 public class Client {
 
 	public static void main(String[] args) {
-		try {
-			Socket s = new Socket("127.0.0.1", 5000); 
-			//cambiando porta posso creare una "Stanza" separata da quella principale.
-			//I socket su Ip:PortA e su Ip:PortB non si incontrano mai e non possono parlare tra loro
+		try {//local per testare
+			Socket s = new Socket("127.0.0.1", 5000);
 			
 			Login lg = new Login(s);
 			

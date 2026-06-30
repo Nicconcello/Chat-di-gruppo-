@@ -30,7 +30,7 @@ public class ChatWindow extends JFrame{
 		JLabel online = new JLabel(testo);
 		JTextArea c = new JTextArea();         // Area dove appaiono i messaggi
 		c.setEditable(false);
-		JScrollPane scroll = new JScrollPane(c); // Aggiunge le barre di scorrimento
+		JScrollPane scroll = new JScrollPane(c);
 		
 		panelloPrincipale.add(online, BorderLayout.NORTH);
 		panelloPrincipale.add(scroll, BorderLayout.CENTER);

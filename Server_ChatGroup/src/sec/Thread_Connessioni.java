@@ -86,6 +86,11 @@ public class Thread_Connessioni implements Runnable{
 					return;
 				}
 			}
+		
+			
+			//Aggiungere Wait, sbloccato DOPO aver premuto il tasto CONNETTI dalla finestra login
+			
+
 
 			if(sc.hasNextLine()) {
 				this.username = sc.nextLine();
@@ -128,6 +133,9 @@ public class Thread_Connessioni implements Runnable{
 				ServerSend(msg);
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 	        if (pw != null) Server.messaggeri.remove(pw);
