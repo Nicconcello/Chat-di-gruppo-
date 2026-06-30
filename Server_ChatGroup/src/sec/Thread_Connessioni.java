@@ -36,15 +36,13 @@ public class Thread_Connessioni implements Runnable{
 	public void salvaInArchivio(String msg) {
 		if(msg != null && !msg.equals("CONNECT") && !msg.equals("DISCONNECT")) {
 			Path percorso = Path.of("ARCHIVIO.txt");
-
-			// Aggiungiamo un "a capo" dopo il messaggio
             String testoDaSalvare = msg + System.lineSeparator();
 
 			synchronized(lockArchivio) {
 				try {
 					Files.writeString(percorso, testoDaSalvare,StandardOpenOption.CREATE, StandardOpenOption.APPEND);
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("[SERVER] Errore salvataggio archivio: " + e.getMessage());
 				}
 			}
 		}
@@ -55,16 +53,14 @@ public class Thread_Connessioni implements Runnable{
 		Path percorso = Path.of("ARCHIVIO.txt");
 
 		if(java.nio.file.Files.exists(percorso)) {
-
 			synchronized(lockArchivio) {
 				try {
 					java.util.List<String> cronologia = java.nio.file.Files.readAllLines(percorso);
-
 					for(String riga : cronologia) {
 						pwPersonale.println(riga);
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("[SERVER] Errore caricamento archivio: " + e.getMessage());
 				}
 			}
 		}
@@ -77,69 +73,67 @@ public class Thread_Connessioni implements Runnable{
 	@Override
 	public void run() {
 		try {
+			System.out.println("\n[SERVER] Nuovo client in fase di connessione. Apro i flussi dati...");
 			sc = new Scanner(s.getInputStream());
 			pw = new PrintWriter(s.getOutputStream(),true);	
 			
+			System.out.println("[SERVER] In attesa del comando 'PARTI' dal client...");
 			if (sc.hasNextLine()) {
 				String messaggio = sc.nextLine();
+				System.out.println("[SERVER] Ricevuto: " + messaggio);
 				if(!messaggio.equals("PARTI")) {
+					System.out.println("[SERVER] Comando non riconosciuto. Interrompo il processo.");
 					return;
 				}
 			}
-		
-			
-			//Aggiungere Wait, sbloccato DOPO aver premuto il tasto CONNETTI dalla finestra login
-			
 
-
+			System.out.println("[SERVER] In attesa di ricevere l'username...");
 			if(sc.hasNextLine()) {
 				this.username = sc.nextLine();
+				System.out.println("[SERVER] Username catturato: " + username);
 			}
 			
-			// controllo crendenziali di accesso
+			System.out.println("[SERVER] In attesa di ricevere l'OTP...");
 			if(sc.hasNextLine()) {
 				String OTP_Generato = sc.nextLine();
+				System.out.println("[SERVER] OTP ricevuto dal Client: " + OTP_Generato);
 				
 				sec.Sicurezza verifica = new sec.Sicurezza(username);
 				String OTP_Verifica = verifica.getOTP();
+				System.out.println("[SERVER] OTP calcolato internamente: " + OTP_Verifica);
 				
-				// credenziali errate e viene cacciato
 				if(!OTP_Generato.equals(OTP_Verifica)) {
+					System.out.println("[SERVER] ❌ ERRORE: I due codici OTP NON combaciano. Rifiuto l'accesso.");
 					pw.println("Codice non valido");
 					s.close();
-					
 					return;
 				}
 				
-
+				System.out.println("[SERVER] ✅ SUCESSO: OTP validato. Invio 'Accesso eseguito' al client.");
 				pw.println("Accesso eseguito");
 
 				caricaArchivio(pw);
 				
-				// connessione e aggiunta al canale di comunicazione
-				//pw.println("Accesso eseguito. Benvenuto " + this.username); //print solo a te stesso e
-				//non a tutti i membri del server()
 				Server.messaggeri.add(pw);
 				ServerSend("CONNECT");
-
 				ServerSend(this.username + " si è connesso.");
-				
 				connesso = true;
 			}
+			
+			System.out.println("[SERVER] In ascolto dei messaggi chat da " + username + "...");
 			while(connesso && sc.hasNextLine()) {
 				String cv = sc.nextLine().trim();
 				String msg = username + " : " + cv;
-				
 				ServerSend(msg);
 			}
-		} catch (IOException e) {
+			
+		} catch (Exception e) {
+			System.out.println("[SERVER] ⚠️ ECCEZIONE GENERATA DURANTE L'ESECUZIONE: ");
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
+		} finally {
+			System.out.println("[SERVER] Disconnessione e chiusura risorse per " + username);
 	        if (pw != null) Server.messaggeri.remove(pw);
-	        ServerSend(username + " si è disconnesso.");
+	        if (username != null) ServerSend(username + " si è disconnesso.");
 			ServerSend("DISCONNECT");
 	        try { s.close(); } catch (IOException e) { }
 	    }
