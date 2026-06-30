@@ -18,7 +18,8 @@ public class ChatWindow extends JFrame{
 
 	private int contatore;
 	
-	public ChatWindow(Socket s, String msg) {
+	// MODIFICA: Il costruttore ora accetta anche lo Scanner sc_ricevuto
+	public ChatWindow(Socket s, String msg, Scanner sc_ricevuto) {
 		super("CHAT");
 		setSize(400,600);
 		setLocationRelativeTo(null);
@@ -56,7 +57,8 @@ public class ChatWindow extends JFrame{
 			@Override
 			public void run() {
 				try {
-					sc = new Scanner(s.getInputStream());
+					// MODIFICA: Usiamo direttamente lo scanner passato anziché crearne uno nuovo
+					sc = sc_ricevuto;
 					
 					while(sc.hasNextLine()) {
 
@@ -73,7 +75,7 @@ public class ChatWindow extends JFrame{
 	                    	c.setCaretPosition(c.getDocument().getLength()); //AutoScroll
 						}
 					}
-				} catch (IOException e) {
+				} catch (Exception e) { // MODIFICA: Cambiato in Exception generica per evitare errori di compilazione
 					e.printStackTrace();
 				}
 			}
