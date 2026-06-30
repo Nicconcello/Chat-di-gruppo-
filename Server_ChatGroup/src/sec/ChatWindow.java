@@ -21,7 +21,7 @@ public class ChatWindow extends JFrame{
 		
 		JTextArea c = new JTextArea();
 		c.setEditable(false);
-		JScrollPane scroll = new JScrollPane(c); // Aggiunge le barre di scorrimento
+		JScrollPane scroll = new JScrollPane(c);
 		
 		JTextField txt = new JTextField(20);
 		
